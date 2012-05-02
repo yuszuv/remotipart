@@ -20,6 +20,11 @@
           settings.iframe      = true;
           settings.files       = $($.rails.fileInputSelector, form);
           settings.data        = form.serializeArray();
+          var button = form.data('ujs:submit-button');
+          if (button) {
+            settings.data.push(button);
+            form.data('ujs:submit-button', null);
+          }
           settings.processData = false;
 
           // Modify some settings to integrate JS request with rails helpers and middleware
