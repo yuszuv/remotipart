@@ -23,7 +23,7 @@
           var button = form.data('ujs:submit-button');
           if (button) {
             settings.data.push(button);
-            form.data('ujs:submit-button', null);
+            form.data('ujs:remotipart-submit-button', null);
           }
           settings.processData = false;
 
@@ -70,5 +70,15 @@
     $.rails.handleRemote(form);
     return false;
   });
+
+  // registering buttons for remotipart events
+$(document).delegate(rails.formInputClickSelector, 'click.rails', function(event) {
+  var button = $(this);
+  if (!rails.allowAction(button)) return rails.stopEverything(event);
+  // register the pressed submit button
+   var name = button.attr('name'),
+   data = name ? {name:name, value:button.val()} : null;
+   button.closest('form').data('ujs:remotipart-submit-button', data);
+}); 
 
 })(jQuery);
